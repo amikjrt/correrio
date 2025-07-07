@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Correio Elegante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("xXXjslTz-lRx1dLkv"); // Seu Public Key
+    })();
+
+    function enviarEmail(event) {
+      event.preventDefault();
+
+      const msg = document.getElementById("mensagem").value;
+      const nome = document.getElementById("nome").value.trim();
+      const destino = document.getElementById("emailDestino").value;
+
+      if (!destino) {
+        alert("Por favor, informe o e-mail do destinatário.");
+        return;
+      }
+
+      const templateParams = {
+        message: msg,
+        from_name: nome || "Anônimo",
+        to_email: destino
+      };
+
+      emailjs
+        .send("service_szzivph", "template_1rzymyw", templateParams)
+        .then(() => {
+          alert("Correio elegante enviado com sucesso!");
+          document.getElementById("formulario").reset();
+        })
+        .catch(() => {
+          alert("Erro ao enviar. Verifique sua conexão ou tente novamente.");
+        });
+    }
+  </script>
+</head>
+<body>
+  <div class="card">
+    <div class="card-inner">
+      <div class="front">
+        <div class="heart"></div>
+        <p>Correio Elegante</p>
+      </div>
+
+      <div class="back">
+        <form id="formulario" onsubmit="enviarEmail(event)">
+          <p class="form-title">Envie sua mensagem de forma anônima ou identificada:</p>
+
+          <textarea id="mensagem" placeholder="Digite sua mensagem..." required></textarea>
+
+          <input type="text" id="nome" placeholder="Seu nome (opcional)" />
+          <input type="email" id="emailDestino" placeholder="E-mail do destinatário" required />
+
+          <div class="botoes">
+            <button type="submit">Enviar por E-mail</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
